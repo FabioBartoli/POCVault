@@ -1,5 +1,11 @@
-def secrets = [path: 'dev-dexco/docker/mysql', engineVersion: 2]
-def configuration = [vaultUrl: 'http://54.82.251.82:8200/',  vaultCredentialId: 'vault-approle', engineVersion: 2]
+def secrets = [
+  [path: 'dev-dexco/docker/mysql', engineVersion: 2, secretValues: [
+    [envVar: 'DB_PASSWORD_ROOT', vaultKey: 'genesis_dbpass_root'],
+    [envVar: 'DB_USERNAME', vaultKey: 'genesis_dbpass_user'],
+    [envVar: 'DB_PASSWORD_USER', vaultKey: 'genesis_dbpass_userpass']]],
+]
+
+def configuration = [vaultUrl: 'http://54.82.251.82:8200',  vaultCredentialId: 'vault-approle', engineVersion: 2]
 
 pipeline {
 agent any
@@ -9,12 +15,7 @@ agent any
           steps {
             withVault([configuration: configuration, vaultSecrets: secrets]) {
             sh  '''
-            export DB_PASSWORD_ROOT=$(vault kv get -field=genesis_dbpass_root dev-dexco/docker/mysql)
-            export DB_USERNAME=$(vault kv get -field=genesis_dbpass_user dev-dexco/docker/mysql)
-            export DB_PASSWORD_USER=$(vault kv get -field=genesis_dbpass_userpass dev-dexco/docker/mysql)
-
-
-            docker run --name mysql-pocvault \
+               docker run --name mysql-pocvault \
                     --publish 3306:3306 \
                     --env MYSQL_ROOT_PASSWORD=$DB_PASSWORD_ROOT \
                     --env MYSQL_ROOT_HOST=% \
