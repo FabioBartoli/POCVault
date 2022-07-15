@@ -1,3 +1,4 @@
+def secrets = [path: 'dev-dexco/docker/mysql']
 def configuration = [vaultUrl: 'http://54.82.251.82:8200/',  vaultCredentialId: 'vault-approle', engineVersion: 2]
 
 pipeline {
@@ -6,7 +7,7 @@ agent any
     stages {     
       stage('BuildDockerSQL') {
           steps {
-            withVault([configuration: configuration]) {
+            withVault([configuration: configuration, vaultSecrets: secrets]) {
             sh  '''
             export DB_PASSWORD_ROOT=$(vault kv get -field=genesis_dbpass_root dev-dexco/docker/mysql)
             export DB_USERNAME=$(vault kv get -field=genesis_dbpass_user dev-dexco/docker/mysql)
