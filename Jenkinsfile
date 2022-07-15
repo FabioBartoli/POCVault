@@ -6,6 +6,7 @@ agent any
     stages {     
       stage('BuildDockerSQL') {
           steps {
+            withVault([configuration: configuration]) {
             sh  '''
             export DB_PASSWORD_ROOT=$(vault kv get -field=genesis_dbpass_root dev-dexco/docker/mysql)
             export DB_USERNAME=$(vault kv get -field=genesis_dbpass_user dev-dexco/docker/mysql)
@@ -21,6 +22,7 @@ agent any
                     --env MYSQL_PASSWORD=$DB_PASSWORD_USER \
                     --detach mysql/mysql-server:5.7
             '''
+            }
           }
       }
     }
