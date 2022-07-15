@@ -1,5 +1,5 @@
 def secrets = [
-  [path: 'dev-dexco/docker/mysql', engineVersion: 2, secretValues: [
+  [path: 'dev-dexco/data/docker/mysql', engineVersion: 2, secretValues: [
     [envVar: 'DB_PASSWORD_ROOT', vaultKey: 'genesis_dbpass_root'],
     [envVar: 'DB_USERNAME', vaultKey: 'genesis_dbpass_user'],
     [envVar: 'DB_PASSWORD_USER', vaultKey: 'genesis_dbpass_userpass']]],
