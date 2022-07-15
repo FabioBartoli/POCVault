@@ -1,7 +1,7 @@
+def configuration = [vaultUrl: 'http://54.82.251.82:8200/',  vaultCredentialId: 'vault-approle', engineVersion: 2]
+
 pipeline {
 agent any
-
-    def configuration = [vaultUrl: 'http://54.82.251.82:8200/',  vaultCredentialId: 'vault-approle', engineVersion: 2]
 
     stages {     
       stage('BuildDockerSQL') {
