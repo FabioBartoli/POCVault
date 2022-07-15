@@ -1,4 +1,4 @@
-def secrets = [path: 'dev-dexco/docker/mysql']
+def secrets = [path: 'dev-dexco/docker/mysql', engineVersion: 2]
 def configuration = [vaultUrl: 'http://54.82.251.82:8200/',  vaultCredentialId: 'vault-approle', engineVersion: 2]
 
 pipeline {
